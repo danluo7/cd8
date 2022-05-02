@@ -19,7 +19,7 @@ For mouse mm10 genome hisat2 pre-built index:
 
     mkdir -p cd8/RNA_REF_FA
 
-set environmental variables by nano .bashrc at the home directory, then setting cd8=/home/floyd/ubuntu/workspace/cd8, and setting cd8_data=/media/floyd/One_Touch/SK2RNAseq
+set environmental variables by nano .bashrc at the home directory, then setting cd8=/home/floyd/ubuntu/workspace/cd8, and setting cd8_data=/media/floyd/OneTouch/SK2RNAseq
 
 
     cd $cd8/RNA_REF_FA
