@@ -19,7 +19,8 @@ For mouse mm10 genome hisat2 pre-built index:
 
     mkdir -p cd8/RNA_REF_FA
 
-set environmental variables by nano .bashrc at the home directory, then setting cd8=/home/floyd/ubuntu/workspace/cd8
+set environmental variables by nano .bashrc at the home directory, then setting cd8=/home/floyd/ubuntu/workspace/cd8, and setting cd8_data=/media/floyd/One_Touch/SK2RNAseq
+
 
     cd $cd8/RNA_REF_FA
     wget https://genome-idx.s3.amazonaws.com/hisat/mm10_genome.tar.gz
@@ -35,4 +36,18 @@ download reference genome
     
     
 ## alignment using hisat2
+
+take a look at the files to see the platform info etc:
+
+        gzip -cd Wild-CDT3_S3_L001_R2_001.fastq | head
+
+output: 
+@A00257:731:HV577DRXY:1:2101:1289:1000 2:N:0:TATGCCTTAC+TAATGTGTCT
+TCATGTTCAGACCTCACACTTGAAAAAGAAAATTTTCTACCCCCATGGTCC
+
+
+### At this point decide on naming conventions. Order the samples logically
+
+hisat2 -p 8 --rg-id=HCTMMDRXY.1 --rg SM:1 --rg LB:1_TGGTAGAGAT+TGTTGTTCGT --rg PL:ILLUMINA --rg PU:HCTMMDRXY.1.TGGTAGAGAT+TGTTGTTCGT -x $gbm/RNA_REF_FA/hg38/genome --dta --rna-strandness FR -1 $gbm_data/6931_1_S1_L001_R1_001.fastq.gz -2 $gbm_data/6931_1_S1_L001_R2_001.fastq.gz -S $gbm_data/alignments/1_rep1.sam
+
 
