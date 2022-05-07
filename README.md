@@ -92,6 +92,28 @@ NCACTCTTTGGTTCCAGGAAACCCCGGCTCCCAATCAGCCCCGTGTGCTTC
     hisat2 -p 8 --rg-id=HV577DRXY.1 --rg SM:1 --rg LB:1_GCGTTGGTAT+GGAAGTATGT --rg PL:ILLUMINA --rg PU:HV577DRXY.1.GCGTTGGTAT+GGAAGTATGT -x $cd8/RNA_REF_FA/mm10/genome --dta --rna-strandness FR -1 $cd8_data/MDSCsSK2KO3_S12_L001_R1_001.fastq.gz -2 $cd8_data/MDSCsSK2KO3_S12_L001_R2_001.fastq.gz -S $cd8_data/alignments/12_MDSCSK2KO.sam
 
 
+##Convert SAM files into BAM files
 
+    cd $cd8_data/alignments
+    
+    samtools sort -@ 10 -o 1_WTCD8.bam 1_WTCD8.sam
+    samtools sort -@ 10 -o 2_WTCD8.bam 2_WTCD8.sam
+    samtools sort -@ 10 -o 3_WTCD8.bam 3_WTCD8.sam
+   
+    samtools sort -@ 10 -o 4_SK2KOCD8.bam 4_SK2KOCD8.sam 
+    samtools sort -@ 10 -o 5_SK2KOCD8.bam 5_SK2KOCD8.sam
+    samtools sort -@ 10 -o 6_SK2KOCD8.bam 6_SK2KOCD8.sam
+    
+    samtools sort -@ 10 -o 7_MDSCWT.bam 7_MDSCWT.sam
+    samtools sort -@ 10 -o 8_MDSCWT.bam 8_MDSCWT.sam
+    samtools sort -@ 10 -o 9_MDSCWT.bam 9_MDSCWT.sam
+    
+    samtools sort -@ 10 -o 10_MDSCSK2KO.bam 10_MDSCSK2KO.sam
+    samtools sort -@ 10 -o 11_MDSCSK2KO.bam 11_MDSCSK2KO.sam
+    samtools sort -@ 10 -o 12_MDSCSK2KO.bam 12_MDSCSK2KO.sam
+    
+    
+    
 
+    
 
