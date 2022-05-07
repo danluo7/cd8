@@ -113,7 +113,16 @@ NCACTCTTTGGTTCCAGGAAACCCCGGCTCCCAATCAGCCCCGTGTGCTTC
     samtools sort -@ 10 -o 12_MDSCSK2KO.bam 12_MDSCSK2KO.sam
     
     
-    
+##Index all bam files for IGV visualization
+
+Make sure that the only files in the directory are the sam and bam/bai files, then:
+
+can do: samtools index 1.bam
+
+or:
+
+    find *.bam -exec echo samtools index {} \; | sh
+
 
     
 
