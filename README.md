@@ -165,3 +165,26 @@ stringtie did not install on this installation of ubuntu (had issues with linkin
     ./stringtie --fr -p 10 -G $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf -e -B -o 10_MDSCSK2KO/transcripts.gtf -A 10_MDSCSK2KO/gene_abundances.tsv $cd8_data/alignments/10_MDSCSK2KO.bam
     ./stringtie --fr -p 10 -G $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf -e -B -o 11_MDSCSK2KO/transcripts.gtf -A 11_MDSCSK2KO/gene_abundances.tsv $cd8_data/alignments/11_MDSCSK2KO.bam
     ./stringtie --fr -p 10 -G $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf -e -B -o 12_MDSCSK2KO/transcripts.gtf -A 12_MDSCSK2KO/gene_abundances.tsv $cd8_data/alignments/12_MDSCSK2KO.bam
+
+
+## htseq for raw counts DE
+
+    mkdir -p $cd8/expression/htseq_counts
+    cd $cd8/expression/htseq_counts
+    
+    htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/1_WTCD8.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 1_WTCD8.tsv
+    htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/2_WTCD8.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 2_WTCD8.tsv
+    htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/3_WTCD8.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 3_WTCD8.tsv
+
+    htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/1_Sk2KOCD8.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 1_Sk2KOCD8.tsv
+    htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/2_Sk2KOCD8.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 2_Sk2KOCD8.tsv
+    htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/3_Sk2KOCD8.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 3_Sk2KOCD8.tsv
+
+    htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/1_MDSCsWT.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 1_MDSCsWT.tsv
+    htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/2_MDSCsWT.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 2_MDSCsWT.tsv
+    htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/3_MDSCsWT.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 3_MDSCsWT.tsv
+
+    htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/1_MDSCsSK2KO.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 1_MDSCsSK2KO.tsv
+    htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/2_MDSCsSK2KO.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 2_MDSCsSK2KO.tsv
+    htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/3_MDSCsSK2KO.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 3_MDSCsSK2KO.tsv
+    
