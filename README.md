@@ -225,5 +225,35 @@ printf "\"ids\",\"type\",\"path
 \"\n\"12_MDSCSK2KO\",\"MDSC_SK2KO\",\"$cd8/expression/stringtie/ref_only/12_MDSCSK2KO
 
 
-	printf"\"ids\",\"type\",\"path\"\n\"1_WTCD8\",\"WT_CD8\",\"$cd8/expression/stringtie/ref_only/1_WTCD8\"\n\"2_WTCD8\",\"WT_CD8\",\"$cd8/expression/stringtie/ref_only/2_WTCD8\"\n\"3_WTCD8\",\"WT_CD8\",\"$cd8/expression/stringtie/ref_only/3_WTCD8\"\n\"4_SK2KOCD8\",\"SK2KO_CD8\",\"$cd8/expression/stringtie/ref_only/4_SK2KOCD8\"\n\"5_SK2KOCD8\",\"SK2KO_CD8\",\"$cd8/expression/stringtie/ref_only/5_SK2KOCD8\"\n\"6_SK2KOCD8\",\"SK2KO_CD8\",\"$cd8/expression/stringtie/ref_only/6_SK2KOCD8\"\n\"7_MDSCWT\",\"MDSC_WT\",\"$cd8/expression/stringtie/ref_only/7_MDSCWT\"\n\"8_MDSCWT\",\"MDSC_WT\",\"$cd8/expression/stringtie/ref_only/8_MDSCWT\"\n\"9_MDSCWT\",\"MDSC_WT\",\"$cd8/expression/stringtie/ref_only/9_MDSCWT\"\n\"10_MDSCSK2KO\",\"MDSC_SK2KO\",\"$cd8/expression/stringtie/ref_only/10_MDSCSK2KO\"\n\"11_MDSCSK2KO\",\"MDSC_SK2KO\",\"$cd8/expression/stringtie/ref_only/11_MDSCSK2KO\"\n\"12_MDSCSK2KO\",\"MDSC_SK2KO\",\"$cd8/expression/stringtie/ref_only/12_MDSCSK2KO\"\n" > SK2_all.csv
+	printf "\"ids\",\"type\",\"path\"\n\"1_WTCD8\",\"WT_CD8\",\"$cd8/expression/stringtie/ref_only/1_WTCD8\"\n\"2_WTCD8\",\"WT_CD8\",\"$cd8/expression/stringtie/ref_only/2_WTCD8\"\n\"3_WTCD8\",\"WT_CD8\",\"$cd8/expression/stringtie/ref_only/3_WTCD8\"\n\"4_SK2KOCD8\",\"SK2KO_CD8\",\"$cd8/expression/stringtie/ref_only/4_SK2KOCD8\"\n\"5_SK2KOCD8\",\"SK2KO_CD8\",\"$cd8/expression/stringtie/ref_only/5_SK2KOCD8\"\n\"6_SK2KOCD8\",\"SK2KO_CD8\",\"$cd8/expression/stringtie/ref_only/6_SK2KOCD8\"\n\"7_MDSCWT\",\"MDSC_WT\",\"$cd8/expression/stringtie/ref_only/7_MDSCWT\"\n\"8_MDSCWT\",\"MDSC_WT\",\"$cd8/expression/stringtie/ref_only/8_MDSCWT\"\n\"9_MDSCWT\",\"MDSC_WT\",\"$cd8/expression/stringtie/ref_only/9_MDSCWT\"\n\"10_MDSCSK2KO\",\"MDSC_SK2KO\",\"$cd8/expression/stringtie/ref_only/10_MDSCSK2KO\"\n\"11_MDSCSK2KO\",\"MDSC_SK2KO\",\"$cd8/expression/stringtie/ref_only/11_MDSCSK2KO\"\n\"12_MDSCSK2KO\",\"MDSC_SK2KO\",\"$cd8/expression/stringtie/ref_only/12_MDSCSK2KO\"\n" > SK2_all.csv
 
+
+R script:
+
+
+	R --no-restore
+	library(ballgown)
+	library(genefilter)
+	library(dplyr)
+	library(devtools)
+	library(ggplot2)
+	library(gplots)
+	library(GenomicRanges)
+
+	pheno_data = read.csv("SK2_all.csv")  
+
+
+	bg = ballgown(samples=as.vector(pheno_data$path), pData=pheno_data)
+	bg
+
+
+	bg_table = texpr(bg, 'all')
+
+
+	bg_gene_names = unique(bg_table[, 9:10])
+	head(bg_gene_names)
+
+
+	save(bg, file='bg.rda')
+
+	bg
