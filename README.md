@@ -187,3 +187,43 @@ stringtie did not install on this installation of ubuntu (had issues with linkin
     htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/10_MDSCSK2KO.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 10_MDSCSK2KO.tsv
     htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/11_MDSCSK2KO.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 11_MDSCSK2KO.tsv
     htseq-count --format bam --order pos --mode intersection-strict --stranded reverse --minaqual 1 --type exon --idattr gene_id $cd8_data/alignments/12_MDSCSK2KO.bam $cd8/RNA_REF_GTF/mm10.ncbiRefSeq.gtf > 12_MDSCSK2KO.tsv
+    
+    
+    
+## Use Ballgown in R for differential expression (DE) analysis (then PCA) using output from Stringtie
+
+    mkdir -p $cd8/de/ballgown/ref_only
+	cd $cd8/de/ballgown/ref_only/
+
+
+Use printf to create/print a table with ids, type (each type of sample is a type), and path to the file, as the header. Then n returns a new line. 
+## (note: ids needs to match the file folder names created by stringtie)
+
+Bascially, need a table that needs to look like this to feed into R:
+
+ids type path-to-file-011_invitro_1 011 $gbm/expression/stringtie/1 011_invitro_2 011 $gbm/expression/stringtie/2 ... ...
+
+goal is to generate a header file to load into R, for ALL samples for principal component analysis (the simplest form of multidimentional scaling), and also a file for pairwise comparisons. since we have a ton of comparisisons, might just not do this for now and only do the PCA. 
+
+file for all 011 samples for PCA: (this is how the script should look like (without the enters inbetween each line):
+
+printf "\"ids\",\"type\",\"path
+\"\n\"1_WTCD8\",\"WT_CD8\",\"$cd8/expression/stringtie/ref_only/1_WTCD8
+\"\n\"2_WTCD8\",\"WT_CD8\",\"$cd8/expression/stringtie/ref_only/2_WTCD8
+\"\n\"3_WTCD8\",\"WT_CD8\",\"$cd8/expression/stringtie/ref_only/3_WTCD8
+
+\"\n\"4_SK2KOCD8\",\"SK2KO_CD8\",\"$cd8/expression/stringtie/ref_only/4_SK2KOCD8
+\"\n\"5_SK2KOCD8\",\"SK2KO_CD8\",\"$cd8/expression/stringtie/ref_only/5_SK2KOCD8
+\"\n\"6_SK2KOCD8\",\"SK2KO_CD8\",\"$cd8/expression/stringtie/ref_only/6_SK2KOCD8
+
+\"\n\"7_MDSCWT\",\"MDSC_WT\",\"$cd8/expression/stringtie/ref_only/7_MDSCWT
+\"\n\"8_MDSCWT\",\"MDSC_WT\",\"$cd8/expression/stringtie/ref_only/8_MDSCWT
+\"\n\"9_MDSCWT\",\"MDSC_WT\",\"$cd8/expression/stringtie/ref_only/9_MDSCWT
+
+\"\n\"10_MDSCSK2KO\",\"MDSC_SK2KO\",\"$cd8/expression/stringtie/ref_only/10_MDSCSK2KO
+\"\n\"11_MDSCSK2KO\",\"MDSC_SK2KO\",\"$cd8/expression/stringtie/ref_only/11_MDSCSK2KO
+\"\n\"12_MDSCSK2KO\",\"MDSC_SK2KO\",\"$cd8/expression/stringtie/ref_only/12_MDSCSK2KO
+
+
+
+
