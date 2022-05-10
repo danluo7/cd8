@@ -368,7 +368,44 @@ Create boxplots using different colors by setting storing the colors of the colu
 
 
 	colors()
-	data_colors=c("tomato1","tomato2","royalblue1","royalblue2","seagreen1","seagreen2","grey1","grey2")
+	data_colors=c("tomato1","tomato2","tomato3","royalblue1","royalblue2","royalblue3","seagreen1","seagreen2","seagreen3","red1","red2","red3")
 
-	boxplot(log2(gene_expression[,data_columns]+min_nonzero), col=data_colors, names=short_names, las=2, ylab="log2(FPKM)", main="Distribution of FPKMs for all 8 sample libraries")
+	boxplot(log2(gene_expression[,data_columns]+min_nonzero), col=data_colors, names=short_names, las=2, ylab="log2(FPKM)", main="Distribution of FPKMs for all 12 sample libraries")
 
+
+## Compare the correlation distance between all replicates
+
+Calculate the FPKM sum for all 12 libraries
+
+	gene_expression[,"sum"]=apply(gene_expression[,data_columns], 1, sum)
+
+Filter out genes with a grand sum FPKM of less than 12
+
+	i = which(gene_expression[,"sum"] > 10)
+
+
+Calculate the correlation between all pairs of data
+
+	r=cor(gene_expression[i,data_columns], use="pairwise.complete.obs", method="pearson")
+	r
+	
+	
+## Plot MDS.
+Convert correlation to distance, and use 'multi-dimensional scaling' to plot the relative differences between libraries, by calculating 2-dimensional coordinates to plot points for each library using eigenvectors (eig=TRUE). d, k=2 means 2 dimensions
+	
+	d=1-r
+	mds=cmdscale(d, k=2, eig=TRUE)
+	par(mfrow=c(1,1))
+	plot(mds$points, type="n", xlab="", ylab="", main="MDS distance plot (all non-zero genes)", xlim=c(-0.4,0.4), ylim=c(-0.4,0.4))
+	points(mds$points[,1], mds$points[,2], col="grey", cex=2, pch=16)
+	text(mds$points[,1], mds$points[,2], short_names, col=data_colors)
+
+Calculate the differential expression results including significance
+
+	results_genes = stattest(bg, feature="gene", covariate="type", getFC=TRUE, meas="FPKM")
+	results_genes = merge(results_genes,bg_gene_names,by.x=c("id"),by.y=c("gene_id"))
+
+
+
+close out the PDF
+dev.off()
