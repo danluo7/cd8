@@ -257,3 +257,120 @@ R script:
 	save(bg, file='bg.rda')
 
 	bg
+	
+	
+	
+	pdf(file="SK2_R_output.pdf")
+
+	working_dir = "~/workspace/cd8/de/ballgown/ref_only"
+	setwd(working_dir)
+	dir()
+
+
+Import expression and differential expression results from the HISAT2/StringTie/Ballgown pipeline
+	
+	load('bg.rda')
+
+
+Load gene names for lookup later in the tutorial
+	
+	bg_table = texpr(bg, 'all')
+	bg_gene_names = unique(bg_table[, 9:10])
+
+
+Pull the gene_expression data frame from the ballgown object
+
+	gene_expression = as.data.frame(gexpr(bg))
+	head(gene_expression)
+
+View the column names
+
+	colnames(gene_expression)
+
+View the row names
+	
+	head(row.names(gene_expression))
+
+Determine the dimensions of the dataframe.  'dim()' will return the number of rows and columns
+
+	dim(gene_expression)
+
+
+Just for fun, check BRD4 expression across all 8 samples:
+
+	i = row.names(gene_expression) == "Brd4"
+	gene_expression[i,]
+
+
+
+
+
+Load the transcript to gene index from the ballgown object. Each row of data represents a transcript. Many of these transcripts represent the same gene. Determine the numbers of transcripts and unique genes  
+
+
+	transcript_gene_table = indexes(bg)$t2g
+	head(transcript_gene_table)
+	
+	length(row.names(transcript_gene_table)) #Transcript count
+	length(unique(transcript_gene_table[,"g_id"])) #Unique Gene count
+
+> length(row.names(transcript_gene_table)) #Transcript count
+[1] 190734
+> length(unique(transcript_gene_table[,"g_id"])) #Unique Gene count
+[1] 54651
+
+
+
+
+Plot the number of transcripts per gene. Many genes will have only 1 transcript, some genes will have several transcripts. Use the 'table()' command to count the number of times each gene symbol occurs (i.e. the # of transcripts that have each gene symbol). Then use the 'hist' command to create a histogram of these counts
+
+	counts=table(transcript_gene_table[,"g_id"])
+	c_one = length(which(counts == 1))
+	c_more_than_one = length(which(counts > 1))
+	c_max = max(counts)
+	hist(counts, breaks=50, col="bisque4", xlab="Transcripts per gene", main="Distribution of transcript count per gene")
+	legend_text = c(paste("Genes with one transcript =", c_one), paste("Genes with more than one transcript =", c_more_than_one), paste("Max transcripts for single gene = ", c_max))
+	legend("topright", legend_text, lty=NULL)
+
+
+Plot the distribution of transcript sizes as a histogram. lengths will be those of known transcripts. Good QC step: we had a low coverage library, or other problems, we might get short 'transcripts' that are actually only pieces of real transcripts.
+
+	full_table <- texpr(bg , 'all')
+	hist(full_table$length, breaks=500, xlab="Transcript length (bp)", main="Distribution of transcript lengths", col="steelblue")
+
+View the summary FPKM values (minimum and maximum FPKM values) for any particular library
+
+	min(gene_expression[,"FPKM.1"])
+	max(gene_expression[,"FPKM.2"])
+
+
+Set the minimum non-zero FPKM values by one of two ways:
+
+coverting 0's to NA, and calculating the minimum or all non NA values
+two ways: 
+zz = fpkm_matrix[,data_columns]
+zz[zz==0] = NA
+min_nonzero = min(zz, na.rm=TRUE)
+min_nonzero
+
+
+Alternatively just set min value to 1
+	
+	min_nonzero=1
+
+Set the columns for finding FPKM and create shorter names for figures
+
+	data_columns=c(1:8)
+	short_names=c("slice_1","slice2","organoid_1","organoid_2","tissue_1","tissue_2","invitro_1","invitro_2")
+
+
+Plot range of values and general distribution of FPKM values for all 8 libraries
+
+Create boxplots using different colors by setting storing the colors of the columns in a variable called data_colors. then display on a log2 scale and add the minimum non-zero value to avoid log2(0). Note that the bold horizontal line on each boxplot is the median.
+
+
+	colors()
+	data_colors=c("tomato1","tomato2","royalblue1","royalblue2","seagreen1","seagreen2","grey1","grey2")
+
+	boxplot(log2(gene_expression[,data_columns]+min_nonzero), col=data_colors, names=short_names, las=2, ylab="log2(FPKM)", main="Distribution of FPKMs for all 8 sample libraries")
+
