@@ -303,8 +303,6 @@ Just for fun, check BRD4 expression across all 8 samples:
 
 
 
-
-
 Load the transcript to gene index from the ballgown object. Each row of data represents a transcript. Many of these transcripts represent the same gene. Determine the numbers of transcripts and unique genes  
 
 
@@ -314,12 +312,12 @@ Load the transcript to gene index from the ballgown object. Each row of data rep
 	length(row.names(transcript_gene_table)) #Transcript count
 	length(unique(transcript_gene_table[,"g_id"])) #Unique Gene count
 
+
 > length(row.names(transcript_gene_table)) #Transcript count
-[1] 190734
+[1] 106520
 > length(unique(transcript_gene_table[,"g_id"])) #Unique Gene count
-[1] 54651
-
-
+[1] 35976
+> 
 
 
 Plot the number of transcripts per gene. Many genes will have only 1 transcript, some genes will have several transcripts. Use the 'table()' command to count the number of times each gene symbol occurs (i.e. the # of transcripts that have each gene symbol). Then use the 'hist' command to create a histogram of these counts
@@ -340,8 +338,8 @@ Plot the distribution of transcript sizes as a histogram. lengths will be those 
 
 View the summary FPKM values (minimum and maximum FPKM values) for any particular library
 
-	min(gene_expression[,"FPKM.1"])
-	max(gene_expression[,"FPKM.2"])
+	min(gene_expression[,"FPKM.1_WTCD8"])
+	max(gene_expression[,"FPKM.3_WTCD8"])
 
 
 Set the minimum non-zero FPKM values by one of two ways:
@@ -360,8 +358,8 @@ Alternatively just set min value to 1
 
 Set the columns for finding FPKM and create shorter names for figures
 
-	data_columns=c(1:8)
-	short_names=c("slice_1","slice2","organoid_1","organoid_2","tissue_1","tissue_2","invitro_1","invitro_2")
+	data_columns=c(1:12)
+	short_names=c("WT_CD8_1","WT_CD8_2","WT_CD8_3","SK2KO_CD8_1","SK2KO_CD8_2","SK2KO_CD8_3","MDSC_WT_1","MDSC_WT_2","MDSC_WT_3","MDSC_SK2KO_1","MDSC_SK2KO_2","MDSC_SK2KO_3")
 
 
 Plot range of values and general distribution of FPKM values for all 8 libraries
