@@ -396,7 +396,7 @@ Convert correlation to distance, and use 'multi-dimensional scaling' to plot the
 	d=1-r
 	mds=cmdscale(d, k=2, eig=TRUE)
 	par(mfrow=c(1,1))
-	plot(mds$points, type="n", xlab="", ylab="", main="MDS distance plot (all non-zero genes)", xlim=c(-0.4,0.4), ylim=c(-0.4,0.4))
+	plot(mds$points, type="n", xlab="", ylab="", main="MDS distance plot (all non-zero genes)", xlim=c(-0.004,0.004), ylim=c(-0.0015,0.0015))
 	points(mds$points[,1], mds$points[,2], col="grey", cex=2, pch=16)
 	text(mds$points[,1], mds$points[,2], short_names, col=data_colors)
 
