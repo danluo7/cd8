@@ -1,5 +1,6 @@
-# CD8+ T cells
-sk knockout vs. wildtype
+# SK2 knockout
+
+sk2 knockout vs. wildtype
 
 
 # raw data processing
