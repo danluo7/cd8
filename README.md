@@ -1,6 +1,6 @@
 # SK2 knockout
 
-sk2 knockout vs. wildtype
+sk2 knockout vs. wildtype in CD8 and MDSC cells
 
 
 # raw data processing
